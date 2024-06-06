@@ -16,13 +16,23 @@ export default async({req, res}) => {
         });
 
         // Set CORS headers
-        res.headers['Access-Control-Allow-Origin'] = '*';
+        //res.headers['Access-Control-Allow-Origin'] = '*';
         //res.setHeader("Access-Control-Allow-Origin", "*");
         //res.setHeader('Access-Control-Allow-Methods', 'POST');
         //res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+         // Set CORS headers
+        const headers = {
+            'Access-Control-Allow-Origin': '*'
+        };
+
         // Handle successful payment
-        res.send({ clientSecret: paymentIntent.client_secret });
+        //res.send({ clientSecret: paymentIntent.client_secret });
+        res.send({
+            statusCode: 200,
+            headers,
+            body: JSON.stringify({ clientSecret: paymentIntent.client_secret })
+        });
 
         return res.json({
             paymentIntent
