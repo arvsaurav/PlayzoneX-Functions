@@ -54,7 +54,7 @@ export default async({req, res}) => {
         res.send({ clientSecret: paymentIntent.client_secret });
 
         return res.json({
-            clientSecret
+            paymentIntent
         });
 
     } catch (error) {
