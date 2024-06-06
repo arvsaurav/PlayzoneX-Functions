@@ -39,8 +39,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // Define your Appwrite function
 export default async({req, res}) => {
-    
-    const { amount, currency } = req.body;
+
+    //const { amount, currency } = req.body;
+    const amount = 1000;
+    const currency = "usd";
 
     try {
         const paymentIntent = await stripe.paymentIntents.create({
