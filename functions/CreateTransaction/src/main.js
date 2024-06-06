@@ -29,10 +29,11 @@ export default async({req, res}) => {
 
     } catch (error) {
         // Handle payment failure
+        const mssg = error.message;
         res.send({ status: 'error', message: error.message });
 
         return res.json({
-            error
+            mssg
         });
     }
 }
