@@ -39,29 +39,24 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // Define your Appwrite function
 export default async({req, res}) => {
-    // Retrieve the payment details from the request
-    const request = req;
-    const response = res;
-    const { amount, currency, source, description } = request.body;
+    
+    const { amount, currency } = req.body;
 
     try {
-        // Create a charge using the Stripe API
-        const charge = await stripe.charges.create({
+        const paymentIntent = await stripe.paymentIntents.create({
             amount,
-            currency,
-            source,
-            description,
+            currency
         });
 
         // Handle successful payment
-        return response.send({ status: 'success', charge });
+        res.send({ clientSecret: paymentIntent.client_secret });
 
-        // return response.json({
-        //     'status': "success"
-        // });
+        return res.json({
+            clientSecret
+        });
 
     } catch (error) {
         // Handle payment failure
-        response.send({ status: 'error', message: error.message });
+        res.send({ status: 'error', message: error.message });
     }
 }
