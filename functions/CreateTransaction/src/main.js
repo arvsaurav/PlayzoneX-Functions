@@ -33,11 +33,15 @@ export default async ({ req, res, log, error }) => {
 };
 */
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+import Stripe from 'stripe';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // Define your Appwrite function
-async function handleRequest(request, response) {
+export default async({req, res}) => {
     // Retrieve the payment details from the request
+    const request = req;
+    const response = res;
     const { amount, currency, source, description } = request.body;
 
     try {
@@ -56,6 +60,3 @@ async function handleRequest(request, response) {
         response.send({ status: 'error', message: error.message });
     }
 }
-
-// Export the function
-module.exports = handleRequest;
