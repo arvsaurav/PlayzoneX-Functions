@@ -54,11 +54,11 @@ export default async({req, res}) => {
         });
 
         // Handle successful payment
-        response.send({ status: 'success', charge });
+        return response.send({ status: 'success', charge });
 
-        return response.json({
-            'status': "success"
-        });
+        // return response.json({
+        //     'status': "success"
+        // });
 
     } catch (error) {
         // Handle payment failure
