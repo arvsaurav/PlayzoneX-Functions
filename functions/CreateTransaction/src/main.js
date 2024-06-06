@@ -5,6 +5,21 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 // Define your Appwrite function
 export default async({req, res}) => {
 
+    if (req.method === 'OPTIONS') {
+        // Set CORS headers for preflight request
+        const headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': 'Content-Type'
+        };
+        
+        // Respond with empty body for preflight request
+        response.send({
+            headers
+        });
+        return;
+    }
+
     //const { amount, currency } = req.body;
     const amount = 1000;
     const currency = "usd";
