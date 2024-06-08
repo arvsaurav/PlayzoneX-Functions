@@ -50,7 +50,7 @@ export default async({req, res, log}) => {
         //res.send({ clientSecret: paymentIntent.client_secret });
         res.send({
             statusCode: 200,
-            headers,
+            //headers,
             body: JSON.stringify({ clientSecret: paymentIntent.client_secret })
         }, headers);
 
