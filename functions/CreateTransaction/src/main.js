@@ -23,9 +23,9 @@ export default async({req, res, log}) => {
         return;
     }
 
-    const { amount, currency } = JSON.parse(req.body);
-    // const amount = 1000;
-    // const currency = "usd";
+    //const { amount, currency } = JSON.parse(req.body);
+    const amount = 1000;
+    const currency = "usd";
 
     try {
         const paymentIntent = await stripe.paymentIntents.create({
@@ -51,7 +51,7 @@ export default async({req, res, log}) => {
         return res.send({
             statusCode: 200,
             //headers,
-            body: JSON.stringify({ clientSecret: paymentIntent.client_secret })
+            body: { clientSecret: paymentIntent.client_secret }
         }, headers);
 
         // return res.json({
