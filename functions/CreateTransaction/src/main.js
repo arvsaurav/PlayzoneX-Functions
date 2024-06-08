@@ -48,7 +48,7 @@ export default async({req, res, log}) => {
 
         // Handle successful payment
         //res.send({ clientSecret: paymentIntent.client_secret });
-        res.send({
+        return res.send({
             statusCode: 200,
             //headers,
             body: JSON.stringify({ clientSecret: paymentIntent.client_secret })
