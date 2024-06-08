@@ -24,14 +24,24 @@ export default async({ req, res, log }) => {
         // Process the request body here
         //log(`Received data: ${JSON.stringify(body)}`);
         const amount = body.amount;
+        const name = body.name; // customer name
         const currency = 'INR';
         const description = 'PlayzoneX payments';
-        
+        const address = {
+            line1: 'Dummy Line 1',
+            postal_code: '00000',
+            city: 'Dummy City',
+            state: 'Dummy State',
+            country: 'India'
+        }
+         
         try {
             const paymentIntent = await stripe.paymentIntents.create({
                 amount,
+                name,
                 currency,
-                description
+                description,
+                address
             });
             const responseBody = JSON.stringify({
                 clientSecret: paymentIntent.client_secret
