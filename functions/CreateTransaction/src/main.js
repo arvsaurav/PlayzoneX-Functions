@@ -122,19 +122,22 @@ export default async ({ req, res, log, error }) => {
         // Process the request body here
         log(`Received data: ${JSON.stringify(body)}`);
 
-        const { amount, currency } = JSON.stringify(body);
-
+        //const { amount, currency } = JSON.stringify(body);
+        const amount = 500;
+        const currency = 'INR';
         
         try {
             const paymentIntent = await stripe.paymentIntents.create({
                 amount,
                 currency
             });
+            log("before payment intent");
+            log(paymentIntent);
             const clientSecret = paymentIntent.client_secret;
-            res.send(JSON.stringify({client: clientSecret}), 200, headers);
-            return res.json({
-                payment: paymentIntent
-            }, 200, headers);
+            return res.send(JSON.stringify({client: clientSecret}), 200, headers);
+            // return res.json({
+            //     payment: paymentIntent
+            // }, 200, headers);
         }
         catch(error) {
             log(error)
