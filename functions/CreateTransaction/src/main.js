@@ -114,6 +114,19 @@ export default async ({ req, res, log, error }) => {
     return res.send('Hello, World!', 200, headers);
   }
 
+  if (req.method === 'POST') {
+    const body = req.body;
+
+    // Process the request body here
+    log(`Received data: ${JSON.stringify(body)}`);
+
+    // Send a JSON response
+    return res.json({
+      message: 'Data received successfully',
+      receivedData: body,
+    }, 200, headers);
+  }
+
   // `res.json()` is a handy helper for sending JSON
   return res.json({
     motto: 'Build like a team of hundreds_',
