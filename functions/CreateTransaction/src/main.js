@@ -38,7 +38,6 @@ export default async({ req, res, log }) => {
         try {
             const paymentIntent = await stripe.paymentIntents.create({
                 amount,
-                name,
                 currency,
                 description
             });
