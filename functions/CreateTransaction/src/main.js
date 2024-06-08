@@ -104,7 +104,7 @@ export default async ({ req, res, log, error }) => {
   // Handle preflight requests
   if (req.method === 'OPTIONS') {
     // Preflight response for CORS
-    return res.send('', 204, headers);
+    res.send('', 204, headers);
   }
 
   // The `req` object contains the request data
