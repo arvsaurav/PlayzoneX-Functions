@@ -1,100 +1,10 @@
-/*
-import Stripe from 'stripe';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-// Define your Appwrite function
-export default async({req, res, log}) => {
-
-    log(req);
-    log(res);
-    try {
-        log(req.headers);
-    }
-    catch {
-        log("req headers err");
-    }
-
-    // Set CORS headers for preflight request
-    const headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Headers': 'Content-Type'
-    };
-
-    if (req.method === 'OPTIONS') {
-        // Set CORS headers for preflight request
-        res.send({
-            //headers
-        }, headers);
-       // return;
-    }
-
-    //const { amount, currency } = JSON.parse(req.body);
-    const amount = 1000;
-    const currency = "usd";
-
-    try {
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount,
-            currency
-        });
-
-        // Set CORS headers
-        //res.headers['Access-Control-Allow-Origin'] = '*';
-        //res.setHeader("Access-Control-Allow-Origin", "*");
-        //res.setHeader('Access-Control-Allow-Methods', 'POST');
-        //res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-         // Set CORS headers
-        // const headers = {
-        //     'Access-Control-Allow-Origin': '*',
-        //     'Access-Control-Allow-Methods': 'POST',
-        //     'Access-Control-Allow-Headers': 'Content-Type'
-        // };
-
-        // Handle successful payment
-        //res.send({ clientSecret: paymentIntent.client_secret });
-        res.send({
-            statusCode: 200,
-            //headers,
-            body: { clientSecret: paymentIntent.client_secret }
-        }, headers);
-
-        return res.json({
-            paymentIntent,
-        });
-
-    } catch (error) {
-        // Handle payment failure
-        //const mssg = error.message;
-        res.send({ status: 'error', message: error.message });
-
-        // return res.json({
-        //     mssg
-        // });
-    }
-}
-*/
 import { Client } from 'node-appwrite';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // It's executed each time we get a request
-export default async ({ req, res, log, error }) => {
-    // Why not try the Appwrite SDK?
-    //
-    // const client = new Client()
-    //    .setEndpoint('https://cloud.appwrite.io/v1')
-    //    .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
-    //    .setKey(process.env.APPWRITE_API_KEY);
-
-    // You can log messages to the console
-    log('Hello, Logs!');
-
-    // If something goes wrong, log an error
-    error('Hello, Errors!');
+export default async({ req, res, log, error }) => {
 
     // Set CORS headers
     const headers = {
@@ -104,23 +14,22 @@ export default async ({ req, res, log, error }) => {
     };
 
     // Handle preflight requests
-    if (req.method === 'OPTIONS') {
+    if(req.method === 'OPTIONS') {
         // Preflight response for CORS
         res.send('', 204, headers);
     }
 
-    // The `req` object contains the request data
-    // if (req.method === 'GET') {
-    //     // Send a response with the res object helpers
-    //     // `res.send()` dispatches a string back to the client
-    //     return res.send('Hello, World!', 200, headers);
-    // }
-
-    if (req.method === 'POST') {
+    if(req.method === 'POST') {
         const body = req.body;
 
         // Process the request body here
         log(`Received data: ${JSON.stringify(body)}`);
+        try {
+            log(body.amount);
+        }
+        catch {
+            log("amount error");
+        }
 
         //const { amount, currency } = JSON.stringify(body);
         const amount = 500;
