@@ -17,7 +17,7 @@ export default async({req, res, log}) => {
         };
         
         // Respond with empty body for preflight request
-        response.send({
+        res.send({
             headers
         });
         return;
