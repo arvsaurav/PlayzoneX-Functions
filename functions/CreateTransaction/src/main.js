@@ -21,30 +21,26 @@ export default async({ req, res, log }) => {
 
     if(req.method === 'POST') {
         const body = req.body;
-        // Process the request body here
-        //log(`Received data: ${JSON.stringify(body)}`);
-        const amount = body.amount;
-        const name = body.name; // customer name
+        const amount = body.amount*100;
         const currency = 'INR';
         const description = 'PlayzoneX Payments';
-        const address = {
-            line1: 'Dummy Line 1',
-            postal_code: '00000',
-            city: 'Dummy City',
-            state: 'Dummy State',
-            country: 'India',
+        const shipping = {
+            name: body.name,
+            address: {
+                line1: 'Dummy Line 1',
+                postal_code: '00000',
+                city: 'Dummy City',
+                state: 'Dummy State',
+                country: 'India'
+            }
         }
-         
+        
         try {
             const paymentIntent = await stripe.paymentIntents.create({
                 amount,
                 currency,
-                description
-            });
-            // for international payments, it is mandatory to have customer name and billing address
-            const customer = await stripe.customers.create({
-                name,
-                address
+                description,
+                shipping
             });
             const responseBody = JSON.stringify({
                 clientSecret: paymentIntent.client_secret
