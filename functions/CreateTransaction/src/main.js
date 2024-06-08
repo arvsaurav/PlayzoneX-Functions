@@ -76,7 +76,6 @@ export default async({req, res, log}) => {
     }
 }
 */
-
 import { Client } from 'node-appwrite';
 
 // This is your Appwrite function
@@ -96,21 +95,23 @@ export default async ({ req, res, log, error }) => {
   error('Hello, Errors!');
 
   // Set CORS headers
-  res.set('Access-Control-Allow-Origin', '*');
-  res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  };
 
   // Handle preflight requests
   if (req.method === 'OPTIONS') {
     // Preflight response for CORS
-    return res.send('');
+    return res.send('', 204, headers);
   }
 
   // The `req` object contains the request data
-  if (req.method === 'POST') {
+  if (req.method === 'GET') {
     // Send a response with the res object helpers
     // `res.send()` dispatches a string back to the client
-    return res.send('Hello, World!');
+    return res.send('Hello, World!', 200, headers);
   }
 
   // `res.json()` is a handy helper for sending JSON
@@ -119,5 +120,5 @@ export default async ({ req, res, log, error }) => {
     learn: 'https://appwrite.io/docs',
     connect: 'https://appwrite.io/discord',
     getInspired: 'https://builtwith.appwrite.io',
-  });
+  }, 200, headers);
 };
