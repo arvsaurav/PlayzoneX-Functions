@@ -54,9 +54,9 @@ export default async({req, res, log}) => {
             body: { clientSecret: paymentIntent.client_secret }
         }, headers);
 
-        // return res.json({
-        //     paymentIntent,
-        // });
+        return res.json({
+            paymentIntent,
+        });
 
     } catch (error) {
         // Handle payment failure
