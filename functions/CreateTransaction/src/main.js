@@ -26,7 +26,14 @@ export default async({ req, res, log }) => {
         const amount = body.amount;
         const name = body.name; // customer name
         const currency = 'INR';
-        const description = 'PlayzoneX payments';
+        const description = 'PlayzoneX Payments';
+        const address = {
+            line1: 'Dummy Line 1',
+            postal_code: '00000',
+            city: 'Dummy City',
+            state: 'Dummy State',
+            country: 'India',
+        }
          
         try {
             const paymentIntent = await stripe.paymentIntents.create({
@@ -34,6 +41,11 @@ export default async({ req, res, log }) => {
                 name,
                 currency,
                 description
+            });
+            // for international payments, it is mandatory to have customer name and billing address
+            const customer = await stripe.customers.create({
+                name,
+                address
             });
             const responseBody = JSON.stringify({
                 clientSecret: paymentIntent.client_secret
