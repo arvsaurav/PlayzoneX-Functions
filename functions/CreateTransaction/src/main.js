@@ -8,10 +8,10 @@ export default async({req, res, log}) => {
     log(req);
     log(res);
     try {
-        log(JSON.parse(req));
+        log(req.headers);
     }
     catch {
-        log("parse error");
+        log("req headers err");
     }
 
     // Set CORS headers for preflight request
