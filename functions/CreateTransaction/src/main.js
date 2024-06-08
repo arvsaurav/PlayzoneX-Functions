@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // It's executed each time we get a request
-export default async({ req, res, log, error }) => {
+export default async({ req, res, log }) => {
 
     // Set CORS headers
     const headers = {
@@ -21,49 +21,27 @@ export default async({ req, res, log, error }) => {
 
     if(req.method === 'POST') {
         const body = req.body;
-
         // Process the request body here
-        log(`Received data: ${JSON.stringify(body)}`);
-        try {
-            log(body.amount);
-        }
-        catch {
-            log("amount error");
-        }
-
-        //const { amount, currency } = JSON.stringify(body);
-        const amount = 500;
+        //log(`Received data: ${JSON.stringify(body)}`);
+        const amount = body.amount;
         const currency = 'INR';
+        const description = 'PlayzoneX payments';
         
         try {
             const paymentIntent = await stripe.paymentIntents.create({
                 amount,
-                currency
+                currency,
+                description
             });
-            log("before payment intent");
-            log(paymentIntent);
-            const clientSecret = paymentIntent.client_secret;
-            return res.send(JSON.stringify({client: clientSecret}), 200, headers);
-            // return res.json({
-            //     payment: paymentIntent
-            // }, 200, headers);
+            const responseBody = JSON.stringify({
+                clientSecret: paymentIntent.client_secret
+            })
+            return res.send(responseBody, 200, headers);
         }
         catch(error) {
-            log(error)
+            log(error);
         }
-
-        // Send a JSON response
-        // return res.json({
-        // message: 'Data received successfully',
-        // receivedData: body,
-        // }, 200, headers);
     }
-
-    // `res.json()` is a handy helper for sending JSON
-    return res.json({
-        motto: 'Build like a team of hundreds_',
-        learn: 'https://appwrite.io/docs',
-        connect: 'https://appwrite.io/discord',
-        getInspired: 'https://builtwith.appwrite.io',
-    }, 200, headers);
+    // sending empty response
+    return res.send('', 200, headers);
 };
