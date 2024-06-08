@@ -20,7 +20,7 @@ export default async({req, res, log}) => {
         res.send({
             //headers
         }, headers);
-        return;
+       // return;
     }
 
     //const { amount, currency } = JSON.parse(req.body);
@@ -48,7 +48,7 @@ export default async({req, res, log}) => {
 
         // Handle successful payment
         //res.send({ clientSecret: paymentIntent.client_secret });
-        return res.send({
+        res.send({
             statusCode: 200,
             //headers,
             body: { clientSecret: paymentIntent.client_secret }
@@ -61,7 +61,7 @@ export default async({req, res, log}) => {
     } catch (error) {
         // Handle payment failure
         //const mssg = error.message;
-        res.send({ status: 'error', message: error.message }, headers);
+        res.send({ status: 'error', message: error.message });
 
         // return res.json({
         //     mssg
