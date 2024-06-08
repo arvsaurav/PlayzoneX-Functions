@@ -131,7 +131,10 @@ export default async ({ req, res, log, error }) => {
                 currency
             });
             const clientSecret = paymentIntent.client_secret;
-            return res.send(JSON.stringify({client: clientSecret}), 200, headers);
+            res.send(JSON.stringify({client: clientSecret}), 200, headers);
+            return res.json({
+                payment: paymentIntent
+            }, 200, headers);
         }
         catch(error) {
             log(error)
