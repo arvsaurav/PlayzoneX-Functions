@@ -3,7 +3,10 @@ import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // Define your Appwrite function
-export default async({req, res}) => {
+export default async({req, res, log}) => {
+
+    log(req);
+    log(res);
 
     if (req.method === 'OPTIONS') {
         // Set CORS headers for preflight request
@@ -52,7 +55,7 @@ export default async({req, res}) => {
         });
 
         return res.json({
-            paymentIntent
+            paymentIntent,
         });
 
     } catch (error) {
