@@ -21,7 +21,8 @@ export default async({ req, res, log }) => {
 
     if(req.method === 'POST') {
         const body = req.body;
-        const amount = body.amount*100;
+        const amountInRupee = body.amount;
+        const amountInPaise = amountInRupee * 100;
         const currency = 'INR';
         const description = 'PlayzoneX Payments';
         const shipping = {
@@ -37,7 +38,7 @@ export default async({ req, res, log }) => {
         
         try {
             const paymentIntent = await stripe.paymentIntents.create({
-                amount,
+                amount: amountInPaise,
                 currency,
                 description,
                 shipping
